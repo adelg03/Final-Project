@@ -4,7 +4,9 @@ const linkClass =
 </script>
 
 <template>
-  <nav class="flex justify-center gap-4">
+  <nav
+    class="mb-8 flex max-w-full justify-center gap-4 rounded-lg bg-white/20 px-6 py-4 font-semibold"
+  >
     <RouterLink
       to="/"
       :class="linkClass"

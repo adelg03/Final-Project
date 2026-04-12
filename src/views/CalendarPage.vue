@@ -1,5 +1,12 @@
+<script setup>
+import NavMenu from '@/components/NavMenu.vue'
+</script>
+
 <template>
-  <main class="flex flex-1 items-center justify-center">
-    <h1 class="text-6xl font-thin text-slate-800">Calendar Page</h1>
+  <main class="flex-1 items-center bg-gradient-to-t from-[#4BBD2B] to-[#2BB6BD]">
+    <div class="mx-auto w-full text-green-900">
+      <NavMenu />
+      <RouterView />
+    </div>
   </main>
 </template>
