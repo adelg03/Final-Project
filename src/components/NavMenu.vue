@@ -12,10 +12,16 @@ const linkClass =
       Home
     </RouterLink>
     <RouterLink
-      to="/other"
+      to="/calendar"
       :class="linkClass"
     >
-      Other
+      Calendar
+    </RouterLink>
+    <RouterLink
+      to="/links"
+      :class="linkClass"
+    >
+      Links
     </RouterLink>
   </nav>
 </template>

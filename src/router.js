@@ -9,9 +9,14 @@ const routes = [
     component: HomePage,
   },
   {
-    path: '/other',
-    name: 'other',
-    component: () => import('@/views/OtherPage.vue'),
+    path: '/calendar',
+    name: 'calendar',
+    component: () => import('@/views/CalendarPage.vue'),
+  },
+  {
+    path: '/links',
+    name: 'links',
+    component: () => import('@/views/LinksPage.vue'),
   },
   {
     path: '/:pathMatch(.*)*',
