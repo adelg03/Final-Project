@@ -5,7 +5,7 @@ import { useCongressState } from '@/assets/composables/getCongressMembers'
 const { congressMembers, stateInput, loading, error, getStateCongress } = useCongressState()
 </script>
 <template>
-  <main class="flex-1 items-center bg-gradient-to-t from-[#2B35BD] to-[#22C1C3]">
+  <main class="flex-1 items-center bg-linear-to-t from-[#2B35BD] to-[#22C1C3]">
     <div class="mx-auto w-full text-blue-900">
       <NavMenu />
       <RouterView />
@@ -30,7 +30,7 @@ const { congressMembers, stateInput, loading, error, getStateCongress } = useCon
 
         <button
           :disabled="loading"
-          class="transform rounded-full bg-gradient-to-t from-[#2B35BD] to-[#22C1C3] px-8 py-3 font-semibold text-white shadow-lg transition hover:scale-105 hover:bg-gray-100 disabled:opacity-50"
+          class="transform rounded-full bg-linear-to-t from-[#2B35BD] to-[#22C1C3] px-8 py-3 font-semibold text-white shadow-lg transition hover:scale-105 hover:bg-gray-100 disabled:opacity-50"
           @click="getStateCongress"
         >
           {{ loading ? 'Loading...' : 'Enter' }}
@@ -38,9 +38,66 @@ const { congressMembers, stateInput, loading, error, getStateCongress } = useCon
       </div>
 
       <div class="mt-4 text-2xl font-bold text-amber-50">
-        Congress Member Data
-        <div class="mt-2 max-h-64 overflow-x-auto rounded-lg bg-black/30 p-3 text-xs text-white/70">
-          {{ JSON.stringify(congressMembers, null, 2) }}
+        <div
+          v-if="congressMembers?.members"
+          class="mt-8"
+        >
+          <div class="rounded-xl bg-white/10 p-6 backdrop-blur-sm">
+            <h2 class="mb-6 text-2xl font-bold text-white">
+              Congress Members from {{ stateInput.toUpperCase() }}
+            </h2>
+
+            <div class="space-y-4">
+              <div
+                v-for="member in congressMembers.members"
+                :key="member.bioguideId"
+                class="overflow-hidden rounded-lg bg-white/10 transition-all hover:bg-white/20"
+              >
+                <div class="p-4">
+                  <div class="flex gap-4">
+                    <div class="shrink-0">
+                      <img
+                        v-if="member.depiction?.imageUrl"
+                        :src="member.depiction.imageUrl"
+                        :alt="member.name"
+                        class="h-24 w-20 object-cover shadow-md"
+                      />
+                      <div
+                        v-else
+                        class="flex h-24 w-20 items-center justify-center bg-linear-to-br from-blue-500 to-purple-500"
+                      >
+                        <span class="text-lg font-bold text-white">
+                          {{ member.name?.charAt(0) || '?' }}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="min-w-0 flex-1">
+                      <h3 class="text-lg font-bold text-white">
+                        {{ member.name }}
+                      </h3>
+
+                      <div class="mt-2 space-y-1 text-sm text-white/90">
+                        <div>Party: {{ member.partyName || 'Unknown Party' }}</div>
+                        <div>Chamber: {{ member.terms?.item?.[0]?.chamber || 'Unknown' }}</div>
+                        <div v-if="member.district">District: {{ member.district }}</div>
+                        <div>Since: {{ member.terms?.item?.[0]?.startYear || 'Unknown' }}</div>
+                        <div v-if="member.terms?.item?.[0]?.state">
+                          State: {{ member.terms?.item?.[0]?.state }}
+                        </div>
+                      </div>
+
+                      <div class="mt-3">
+                        <button class="text-sm text-white/80 transition hover:text-white">
+                          View Sponsored Bills
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
