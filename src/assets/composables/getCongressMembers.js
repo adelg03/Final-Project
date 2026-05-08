@@ -67,6 +67,7 @@ export function useCongressState() {
   const error = ref('')
   const congressMembers = ref(null)
   const loading = ref(false)
+  const memberLimit = ref(5)
 
   const getStateCongress = async () => {
     if (loading.value) return
@@ -83,7 +84,7 @@ export function useCongressState() {
     }
 
     const formattedState = input.toUpperCase()
-    const URL = `${BASE_URL}/${formattedState}?format=json&limit=${MEMBER_LIMIT}&currentMember=true&api_key=${API_KEY}`
+    const URL = `${BASE_URL}/${formattedState}?format=json&limit=${memberLimit.value}&currentMember=true&api_key=${API_KEY}`
 
     try {
       const request = useFetch(URL, { immediate: false }).get().json()
@@ -103,5 +104,6 @@ export function useCongressState() {
     loading,
     error,
     getStateCongress,
+    memberLimit,
   }
 }
