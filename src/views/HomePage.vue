@@ -2,7 +2,10 @@
 import NavMenu from '@/components/NavMenu.vue'
 import { useCongressState } from '@/assets/composables/getCongressMembers'
 
-const { congressMembers, stateInput, loading, error, getStateCongress } = useCongressState()
+const { congressMembers, stateInput, loading, error, getStateCongress, memberLimit } =
+  useCongressState()
+
+const numberOptions = Array.from({ length: 250 }, (_, i) => i + 1)
 </script>
 <template>
   <main class="flex-1 items-center bg-linear-to-t from-[#2B35BD] to-[#22C1C3]">
@@ -27,6 +30,19 @@ const { congressMembers, stateInput, loading, error, getStateCongress } = useCon
           placeholder="Enter state code (e.g., TX)"
           class="shadow-2x1 w-80 rounded-2xl border-0 border-white/50 bg-white px-6 py-3 text-gray-800 placeholder:text-gray-400 focus:outline-none"
         />
+
+        <select
+          v-model="memberLimit"
+          class="rounded-full border-2 border-white/50 bg-white/90 px-6 py-3 text-gray-800 shadow-lg focus:ring-2 focus:ring-white focus:outline-none"
+        >
+          <option
+            v-for="num in numberOptions"
+            :key="num"
+            :value="num"
+          >
+            {{ num }}
+          </option>
+        </select>
 
         <button
           :disabled="loading"
@@ -98,6 +114,31 @@ const { congressMembers, stateInput, loading, error, getStateCongress } = useCon
               </div>
             </div>
           </div>
+        </div>
+
+        <div
+          v-else-if="loading"
+          class="mt-6 space-y-4 text-center text-white"
+        >
+          <div
+            class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-white border-t-transparent"
+          ></div>
+          <p class="mt-2">Fetching congress members...</p>
+        </div>
+
+        <div
+          v-else-if="error"
+          class="mt-6 rounded-lg bg-red-500 p-4 text-center text-white"
+        >
+          {{ error }}
+        </div>
+
+        <div
+          v-else-if="congressMembers?.members?.length === 0 && !loading && !error"
+          class="mt-6 rounded-lg bg-white/10 p-4 text-center text-white"
+        >
+          <p>No congress members found for {{ stateInput.toUpperCase() }}.</p>
+          <p class="mt-1 text-sm opacity-80">Please check the state code and try again.</p>
         </div>
       </div>
     </div>
