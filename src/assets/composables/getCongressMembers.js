@@ -1,9 +1,9 @@
 import { useFetch } from '@vueuse/core'
 import { ref } from 'vue'
 
-const API_KEY = 'iaQgHaJzohK7bEEsNcQY9RCZbplPG2AlSODEh2VK'
 const BASE_URL = 'https://api.congress.gov/v3/member'
-const MEMBER_LIMIT = 6
+const CONGRESS_API_KEY = import.meta.env.VITE_CONGRESS_API_KEY
+const SPONSORED_LIMIT = 5
 
 const stateValidation = (input) => {
   const validStates = [
@@ -68,6 +68,7 @@ export function useCongressState() {
   const congressMembers = ref(null)
   const loading = ref(false)
   const memberLimit = ref(5)
+  const sponsored = ref(null)
 
   const getStateCongress = async () => {
     if (loading.value) return
@@ -84,7 +85,7 @@ export function useCongressState() {
     }
 
     const formattedState = input.toUpperCase()
-    const URL = `${BASE_URL}/${formattedState}?format=json&limit=${memberLimit.value}&currentMember=true&api_key=${API_KEY}`
+    const URL = `${BASE_URL}/${formattedState}?format=json&limit=${memberLimit.value}&currentMember=true&api_key=${CONGRESS_API_KEY}`
 
     try {
       const request = useFetch(URL, { immediate: false }).get().json()
@@ -98,6 +99,19 @@ export function useCongressState() {
     }
   }
 
+  const sponsoredLegislation = async (bioguideId) => {
+    const URL = `${BASE_URL}/${bioguideId}/sponsored-legislation?format=json&limit=${SPONSORED_LIMIT}&api_key=${CONGRESS_API_KEY}`
+
+    try {
+      const request = useFetch(URL, { immediate: false }).get().json()
+      await request.execute()
+
+      sponsored.value = request.data.value
+    } catch {
+      error.value = 'Could not find any Congress Members. Try again.'
+    }
+  }
+
   return {
     stateInput,
     congressMembers,
@@ -105,5 +119,7 @@ export function useCongressState() {
     error,
     getStateCongress,
     memberLimit,
+    sponsoredLegislation,
+    sponsored,
   }
 }
