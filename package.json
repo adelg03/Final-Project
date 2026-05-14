@@ -1,41 +1,36 @@
 {
-  "name": "vue-basic-template",
-  "private": true,
-  "version": "0.0.0",
+  "name": "final-project",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "lint": "eslint . --fix",
-    "lint:check": "eslint .",
-    "format": "prettier --write src/",
-    "format:check": "prettier --check src/",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply finalproject_db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply finalproject_db --remote",
     "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
-    "@fullcalendar/core": "^6.1.20",
     "@fullcalendar/daygrid": "^6.1.20",
     "@fullcalendar/interaction": "^6.1.20",
     "@fullcalendar/timegrid": "^6.1.20",
     "@fullcalendar/vue3": "^6.1.20",
-    "@vueuse/core": "^14.2.1",
-    "vue": "^3.5.29",
-    "vue-router": "^5.0.3"
+    "@vueuse/core": "^14.3.0",
+    "bcryptjs": "^3.0.3",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.12.18",
+    "hono-rate-limiter": "^0.5.3",
+    "pinia": "^3.0.4",
+    "vue-router": "^5.0.6",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.31.2",
-    "@eslint/js": "^10.0.1",
-    "@tailwindcss/vite": "^4.2.1",
-    "@vitejs/plugin-vue": "^6.0.4",
-    "eslint": "^10.0.2",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-vue": "^10.8.0",
-    "prettier": "^3.8.1",
-    "prettier-plugin-tailwindcss": "^0.7.2",
-    "tailwindcss": "^4.2.1",
-    "vite": "^8.0.3",
-    "vue-eslint-parser": "^10.4.0",
-    "wrangler": "^4.81.1"
+    "@cloudflare/vite-plugin": "^1.36.4",
+    "@tailwindcss/vite": "^4.3.0",
+    "@vitejs/plugin-vue": "^6.0.6",
+    "drizzle-kit": "^0.31.10",
+    "globals": "^17.6.0",
+    "vite": "^8.0.12",
+    "wrangler": "^4.90.1"
   }
 }
