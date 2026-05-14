@@ -1,0 +1,26 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "final-project",
+	"main": "src/index.js",
+	"compatibility_date": "2026-05-12",
+	"compatibility_flags": ["nodejs_compat"],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "finalproject_db",
+			"database_id": "bdbd8738-f7a3-4db0-8901-69c7e8047d5e",
+       "migrations_dir": "./src/data/migrations",
+    },
+  ],
+  "ratelimits": [
+    {
+      "name": "AUTH_LIMITER",
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 10,
+        "period": 60,
+      },
+    },
+  ],
+}
+
